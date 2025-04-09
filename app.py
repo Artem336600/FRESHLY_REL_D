@@ -253,7 +253,14 @@ if __name__ == '__main__':
         if not initialize_clients():
             print("Ошибка: Не удалось инициализировать клиенты. Проверьте подключение к интернету и API ключи.")
             sys.exit(1)
-        port = int(os.environ.get("PORT", 5000))
+        try:
+            port_str = os.environ.get("PORT", "5000")
+            if port_str == "$PORT":  # Если переменная не заменилась
+                port = 5000
+            else:
+                port = int(port_str)
+        except ValueError:
+            port = 5000
         app.run(debug=(os.environ.get('FLASK_DEBUG', 'False') == 'True'), 
                 host='0.0.0.0', 
                 port=port)
