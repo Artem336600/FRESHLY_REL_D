@@ -253,6 +253,9 @@ if __name__ == '__main__':
         if not initialize_clients():
             print("Ошибка: Не удалось инициализировать клиенты. Проверьте подключение к интернету и API ключи.")
             sys.exit(1)
-        app.run(debug=False, host='0.0.0.0', port=int(os.getenv('PORT', 5000)))
+        port = int(os.environ.get("PORT", 5000))
+        app.run(debug=(os.environ.get('FLASK_DEBUG', 'False') == 'True'), 
+                host='0.0.0.0', 
+                port=port)
     else:
         console_mode()
