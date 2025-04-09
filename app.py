@@ -34,13 +34,23 @@ deepseek_client = None
 def initialize_clients():
     global supabase, deepseek_client
     try:
+        print(f"Попытка инициализации клиентов со следующими параметрами:")
+        print(f"SUPABASE_URL: {os.getenv('SUPABASE_URL')}")
+        print(f"SUPABASE_KEY: {os.getenv('SUPABASE_KEY')[:10]}... (скрыто)")
+        print(f"DEEPSEEK_API_KEY: {os.getenv('DEEPSEEK_API_KEY')[:10]}... (скрыто)")
+        print(f"DEEPSEEK_BASE_URL: {os.getenv('DEEPSEEK_BASE_URL')}")
+        
         supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+        print("Клиент Supabase инициализирован успешно")
+        
         deepseek_client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url=DEEPSEEK_BASE_URL)
-        print("Успешная инициализация клиентов.")
+        print("Клиент DeepSeek инициализирован успешно")
+        
+        print("Успешная инициализация всех клиентов.")
+        return True
     except Exception as e:
         print(f"Ошибка инициализации клиентов: {e}")
         return False
-    return True
 
 # --- Вспомогательные функции ---
 def print_product_info(item):
