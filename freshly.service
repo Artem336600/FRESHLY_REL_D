@@ -1,0 +1,13 @@
+[Unit]
+Description=Freshly Product Analysis App
+After=network.target
+
+[Service]
+User=www-data
+WorkingDirectory=/path/to/your/app/Freshly
+Environment="PATH=/path/to/your/app/venv/bin"
+ExecStart=/path/to/your/app/venv/bin/gunicorn wsgi:app --workers 4 --bind 0.0.0.0:5000 --timeout 120
+Restart=always
+
+[Install]
+WantedBy=multi-user.target 
