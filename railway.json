@@ -7,8 +7,6 @@
   "deploy": {
     "startCommand": "chmod +x run_minimal.sh && ./run_minimal.sh",
     "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10,
-    "healthcheckPath": "/health",
-    "healthcheckTimeout": 10
+    "restartPolicyMaxRetries": 10
   }
 } 

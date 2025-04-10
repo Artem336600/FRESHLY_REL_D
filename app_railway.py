@@ -1,15 +1,20 @@
 from flask import Flask, jsonify
 import logging
 import os
+import sys
 
-# Настройка логирования
+# Настройка логирования на стандартный вывод
 logging.basicConfig(
+    stream=sys.stdout,
     level=logging.DEBUG,
     format='%(asctime)s [%(levelname)s] - %(message)s'
 )
 logger = logging.getLogger(__name__)
+logger.info("Инициализация приложения Railway")
 
+# Создание приложения
 app = Flask(__name__)
+logger.info("Flask приложение создано")
 
 @app.route('/')
 def index():
@@ -23,9 +28,7 @@ def index():
 def health():
     logger.info("Запрос к маршруту '/health'")
     return jsonify({
-        "status": "healthy",
-        "service": "Freshly API",
-        "version": "1.0.0"
+        "status": "healthy"
     })
 
 @app.errorhandler(Exception)
@@ -35,6 +38,10 @@ def handle_exception(e):
         "status": "error",
         "message": f"Внутренняя ошибка сервера: {str(e)}"
     }), 500
+
+# Отладочная информация
+logger.info(f"Переменные окружения (без секретов): {[k for k in os.environ.keys() if not any(s in k.lower() for s in ['key', 'token', 'secret', 'password'])]}")
+logger.info(f"Порт: {os.environ.get('PORT', '(не задан)')}")
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
